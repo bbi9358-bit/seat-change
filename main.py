@@ -1,24 +1,37 @@
+import streamlit as st
 import random
 
-# 학생 번호 생성 (1번 ~ 20번)
-students = list(range(1, 21))
+st.set_page_config(page_title="중3 자리배치", layout="centered")
 
-# 랜덤으로 섞기
-random.shuffle(students)
+st.title("🏫 중3 랜덤 자리배치")
 
-# 자리 배치 (4행 × 5열)
-rows = 4
-cols = 5
+# 처음 실행 시 자리 생성
+if "seats" not in st.session_state:
+    numbers = list(range(1, 21))
+    random.shuffle(numbers)
+    st.session_state.seats = numbers
 
-print("=" * 35)
-print("      랜덤 자리 배치")
-print("=" * 35)
+# 랜덤 배치 버튼
+if st.button("🎲 랜덤 배치"):
+    numbers = list(range(1, 21))
+    random.shuffle(numbers)
+    st.session_state.seats = numbers
 
-index = 0
-for r in range(rows):
-    for c in range(cols):
-        print(f"{students[index]:>2}번", end="\t")
-        index += 1
-    print()
+st.markdown("---")
+st.subheader("📚 교탁")
 
-print("=" * 35)
+seats = st.session_state.seats
+
+# 5행 × 4열 출력
+idx = 0
+for r in range(5):
+    cols = st.columns(4)
+    for c in range(4):
+        with cols[c]:
+            st.button(
+                str(seats[idx]),
+                key=f"seat_{idx}",
+                use_container_width=True,
+                disabled=True,
+            )
+        idx += 1
