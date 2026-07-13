@@ -1,4 +1,4 @@
-mport random
+import random
 
 # 학생 번호 생성 (1번 ~ 20번)
 students = list(range(1, 21))
